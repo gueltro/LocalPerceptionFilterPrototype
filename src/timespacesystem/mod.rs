@@ -32,6 +32,12 @@ impl<'a> System<'a> for TimeSpaceSystem {
                 .filter(|(_, p, _)| {
                     time_horizon(&p.0[t], &latest_user_states, self.speed_of_light) >= t
                 })
+                .filter(|(e,_,_)|
+                    match input.get(*e){
+                        Some(input) => input.0.len() > t,
+                        None => true
+                    }
+                )
                 .for_each(|(ent, pos, vel)| {
                     let new_vel = get_new_vel(&vel.0[t], input.get(ent), t);
                     let new_pos = get_new_pos(&pos.0[t], &new_vel);
