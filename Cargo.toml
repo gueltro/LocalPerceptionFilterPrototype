@@ -1,0 +1,7 @@
+[package]
+name = "switcher"
+version = "0.1.0"
+authors = ["gg"]
+
+[dependencies]
+specs = "0.12"
