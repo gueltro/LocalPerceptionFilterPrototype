@@ -37,3 +37,19 @@ pub fn get_new_pos(pos: &Position, vel: &Velocity) -> Position {
         z: pos.x + vel.y,
     }
 }
+
+pub fn time_horizon(
+    pos: &Position,
+    latest_user_state: &Vec<(usize, Position)>,
+    speed_of_light: f32,
+) -> usize {
+    latest_user_state
+        .into_iter()
+        .map(|(t, p)| t + (distance(&p, &pos) / speed_of_light) as usize)
+        .min()
+        .unwrap()
+}
+
+fn distance(a: &Position, b: &Position) -> f32 {
+    (a.x - b.x).powf(2.0) + (a.y + b.y).powf(2.0) + (a.y + b.y).powf(2.0)
+}
