@@ -47,7 +47,7 @@ pub fn time_horizon(
         .into_iter()
         .map(|(t, p)| t + (distance(&p, &pos) / speed_of_light) as usize)
         .min()
-        .unwrap()
+        .unwrap_or(usize::max_value())
 }
 
 fn distance(a: &Position, b: &Position) -> f32 {

@@ -8,7 +8,22 @@ mod computation;
 use self::computation::{get_new_pos, get_new_vel, time_horizon};
 
 pub struct TimeSpaceSystem {
-    pub speed_of_light: f32,
+    speed_of_light: f32,
+    earliest_horizon: usize
+}
+
+impl TimeSpaceSystem{
+    pub fn new(speed_of_light: f32, earliest_horizon: usize) -> Self {
+        TimeSpaceSystem
+        {
+            speed_of_light: speed_of_light,
+            earliest_horizon: earliest_horizon
+        }
+    }
+
+    fn set_earliest_horizon(&mut self, new_earliest_horizon: usize){
+        self.earliest_horizon = new_earliest_horizon;
+    }
 }
 
 impl<'a> System<'a> for TimeSpaceSystem {
@@ -20,7 +35,7 @@ impl<'a> System<'a> for TimeSpaceSystem {
     );
 
     fn run(&mut self, (ent, input, mut pos, mut vel): Self::SystemData) {
-        for t in 0..1 {
+        for t in self.earliest_horizon..10 {
             let latest_user_states: Vec<(usize, Position)> = (&pos, &input)
                 .join()
                 .map(|(p, i)| (p.0.len(), p.0[p.0.len() - 1].clone()))
@@ -46,5 +61,12 @@ impl<'a> System<'a> for TimeSpaceSystem {
                     pos.0.push(new_pos);
                 });
         }
+
+        let new_earliest_horizon = (&pos, &input)
+            .join()
+            .map(|(p,_)| {p.0.len()})
+            .min()
+            .unwrap_or(usize::max_value());
+        self.set_earliest_horizon(new_earliest_horizon);
     }
 }

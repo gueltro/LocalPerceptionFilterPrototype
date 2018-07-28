@@ -50,9 +50,7 @@ fn main() {
     //Dispatch TimeSpaceSystem
     let mut dispatcher = DispatcherBuilder::new()
         .with(
-            TimeSpaceSystem {
-                speed_of_light: 100.0,
-            },
+            TimeSpaceSystem::new(100.0, 0),
             "TimeSpaceSystem",
             &[],
         )
