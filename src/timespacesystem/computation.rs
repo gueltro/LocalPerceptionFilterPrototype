@@ -51,5 +51,5 @@ pub fn time_horizon(
 }
 
 fn distance(a: &Position, b: &Position) -> f32 {
-    (a.x - b.x).powf(2.0) + (a.y + b.y).powf(2.0) + (a.y + b.y).powf(2.0)
+    ((a.x - b.x).powf(2.0) + (a.y + b.y).powf(2.0) + (a.y + b.y).powf(2.0)).powf(0.5)
 }
