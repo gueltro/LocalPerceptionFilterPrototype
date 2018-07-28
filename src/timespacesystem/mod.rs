@@ -35,7 +35,13 @@ impl<'a> System<'a> for TimeSpaceSystem {
     );
 
     fn run(&mut self, (ent, input, mut pos, mut vel): Self::SystemData) {
-        for t in self.earliest_horizon..10 {
+        let latest_horizon = (&input)
+            .join()
+            .map(|i| i.0.len())
+            .max()
+            .unwrap_or(usize::min_value());
+
+        for t in self.earliest_horizon..=latest_horizon {
             let latest_user_states: Vec<(usize, Position)> = (&pos, &input)
                 .join()
                 .map(|(p, i)| (p.0.len(), p.0[p.0.len() - 1].clone()))
