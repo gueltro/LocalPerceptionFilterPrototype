@@ -49,11 +49,7 @@ fn main() {
 
     //Dispatch TimeSpaceSystem
     let mut dispatcher = DispatcherBuilder::new()
-        .with(
-            TimeSpaceSystem::new(100.0, 0),
-            "TimeSpaceSystem",
-            &[],
-        )
+        .with(TimeSpaceSystem::new(100.0, 0), "TimeSpaceSystem", &[])
         .build();
     dispatcher.setup(&mut world.res);
 
